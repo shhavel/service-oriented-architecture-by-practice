@@ -1,0 +1,11 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: noughts_and_crosses_development
+  username: alex
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: noughts_and_crosses_test
+  username: alex
