@@ -13,3 +13,6 @@ Dir[File.join(settings.root, "app/controllers/*.rb")].each { |f| require f }
 before do
   content_type :txt
 end
+
+error(ActiveRecord::RecordNotFound) { [404, "There is no Game with provided id"] }
+error { [500, "An internal server error occurred. Please try again later."] }
