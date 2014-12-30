@@ -1,11 +1,11 @@
-get "/api/v1/games/:id.txt" do
-  @game = Game.find(params[:id])
-  erb :game
-end
-
 post "/api/v1/games.txt" do
   @game = Game.create
   status 201
+  erb :game
+end
+
+get "/api/v1/games/:id.txt" do
+  @game = Game.find(params[:id])
   erb :game
 end
 
@@ -13,6 +13,11 @@ put "/api/v1/games/:id.txt" do
   @game = Game.find(params[:id])
   @game.update_attributes!(params[:game])
   erb :game
+end
+
+delete "/api/v1/games/:id.txt" do
+  @game = Game.find(params[:id])
+  @game.destroy
 end
 
 template :game do
