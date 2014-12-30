@@ -5,7 +5,16 @@ describe "Games", type: :request do
     it "responds with ok status and text representation of game if game exists" do
       get "/api/v1/games/#{game.id}.txt"
       expect(last_response).to be_ok
-      expect(last_response.body).to eq ",,X,O,X,,O,,"
+      expect(last_response.body).to eq (<<-GAME).gsub(/^ {8}/, '')
+        Game ##{game.id}
+        Status: In progress
+
+           |   | X
+        -----------
+         O | X |  
+        -----------
+         O |   |  
+      GAME
     end
 
     it "responds with 404 status and error message if game does not exist" do

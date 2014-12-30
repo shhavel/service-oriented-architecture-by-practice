@@ -25,11 +25,16 @@ class Game < ActiveRecord::Base
     won? or lost?
   end
 
-private
+  def status
+    return 'In progress' unless finished?
+    won? ? 'Won' : 'Lost'
+  end
+
   def cells
     @cells ||= board.split(',', 9)
   end
 
+private
   def part(*indexes)
     cells.values_at(*indexes).join
   end

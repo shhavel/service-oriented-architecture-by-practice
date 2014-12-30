@@ -2,7 +2,7 @@ require 'bundler/setup'
 Bundler.require :default, (ENV['RACK_ENV'] || :development).to_sym
 puts "Loaded #{Sinatra::Application.environment} environment"
 
-require 'sinatra/main'
+require 'sinatra'
 set :root, File.dirname(__FILE__)
 use Rack::CommonLogger, File.new(File.join(settings.root, 'log', "#{settings.environment}.log"), 'a+').tap { |f| f.sync = true }
 
