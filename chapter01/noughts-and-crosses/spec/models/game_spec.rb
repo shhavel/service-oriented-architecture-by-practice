@@ -19,7 +19,7 @@ describe Game do
     it "can not make a move at busy cell" do
       game = create(:game, board: ',,O,,X,,,,')
       expect { game.update_attributes!(move: '4') }.to raise_error
-      expect(game.errors.full_messages).to include "Move not allowed, cell is not free."
+      expect(game.errors.full_messages).to include "Move not allowed, cell is not empty."
     end
 
     it "can make a move at free cell if geme is not finished" do

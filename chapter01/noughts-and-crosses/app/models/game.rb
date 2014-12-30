@@ -2,7 +2,9 @@ class Game < ActiveRecord::Base
   before_update :make_a_move
 
   validates_format_of :board, with: /\A(?:[XO]?,){8}[XO]?\Z/
-  validates :move, inclusion: { in: [*0..8] }, on: :update
+  validates :move, presence: true, on: :update
+  validates :move, inclusion: { in: [*0..8], message: 'is out of the board',
+    allow_nil: true }, on: :update
   validate :ensure_geme_not_finished, on: :update
   validate :ensure_move_allowed, on: :update
 
@@ -26,7 +28,7 @@ class Game < ActiveRecord::Base
   end
 
   def status
-    return 'In progress' unless finished?
+    return 'In Progress' unless finished?
     won? ? 'Won' : 'Lost'
   end
 
@@ -49,7 +51,7 @@ private
   end
 
   def ensure_move_allowed
-    errors.add(:move, "not allowed, cell is not free.") if cells[move] != ''
+    errors.add(:move, "not allowed, cell is not empty.") if move && cells[move] != ''
   end
 
   def make_a_move

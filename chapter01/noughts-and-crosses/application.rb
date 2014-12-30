@@ -15,4 +15,5 @@ before do
 end
 
 error(ActiveRecord::RecordNotFound) { [404, "There is no Game with provided id"] }
+error(ActiveRecord::RecordInvalid) { [422, env['sinatra.error'].record.errors.full_messages.join("\n")] }
 error { [500, "An internal server error occurred. Please try again later."] }
