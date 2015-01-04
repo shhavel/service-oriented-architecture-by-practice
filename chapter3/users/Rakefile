@@ -1,0 +1,6 @@
+require_relative 'service'
+
+unless ENV['RACK_ENV'].to_s == 'production'
+  require 'rspec_api_documentation'
+  load 'tasks/docs.rake'
+end

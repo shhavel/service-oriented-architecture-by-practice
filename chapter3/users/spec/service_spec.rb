@@ -1,14 +1,3 @@
-require_relative "../service"
-require "rack/test"
-
-RSpec.configure do |config|
-  config.include Rack::Test::Methods
-
-  def app
-    Sinatra::Application
-  end
-end
-
 describe "Users Service" do
   describe "GET /api/v1/users/me.json" do
     it "retrieves admin user JSON representation of provided token of admin user" do
