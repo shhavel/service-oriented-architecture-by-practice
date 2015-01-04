@@ -1,9 +1,5 @@
 require "sinatra/main"
 
-set :root, File.dirname(__FILE__)
-use Rack::CommonLogger, File.new(File.join(settings.root, 'log',
-  "#{settings.environment}.log"), 'a+').tap { |f| f.sync = true }
-
 get "/api/v1/users/me.json" do
   content_type :json
 
