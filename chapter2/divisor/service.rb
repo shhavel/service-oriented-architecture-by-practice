@@ -1,5 +1,7 @@
-require "sinatra/main"
-require "logger"
+require 'bundler/setup'
+Bundler.require :default, (ENV['RACK_ENV'] || :development).to_sym
+require 'logger'
+require_relative 'rusen_config'
 
 set :raise_errors, false # in production and dev mode it is false, so you probably do not need it
 set :root, File.dirname(__FILE__)
@@ -19,4 +21,8 @@ get "/api/v1/ratio/:a/:b" do
   "#{params[:a].to_i / params[:b].to_i}"
 end
 
-error { "An internal server error occurred. Please try again later." }
+error do
+  # Arguments are: exception, request, environment, session
+  Rusen.notify(env['sinatra.error'], {}, env, {}) # if settings.production?
+  "An internal server error occurred. Please try again later."
+end
