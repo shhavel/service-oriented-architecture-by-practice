@@ -1,0 +1,21 @@
+source 'https://rubygems.org'
+
+gem 'rake'
+gem 'sinatra', require: 'sinatra/main'
+gem 'pg'
+gem 'activerecord'
+gem 'protected_attributes'
+gem 'sinatra-activerecord'
+
+group :development, :test do
+  gem 'thin'
+  gem 'pry-debugger'
+end
+
+group :test do
+  gem 'rspec'
+  gem 'shoulda'
+  gem 'factory_girl'
+  gem 'database_cleaner'
+  gem 'rack-test'
+end
