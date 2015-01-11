@@ -13,3 +13,10 @@ Dir[File.join(settings.root, "app/controllers/*.rb")].each { |f| require f }
 before do
   content_type :json
 end
+
+error(ActiveRecord::RecordNotFound) { [404, '{"message":"Record not found"}' }
+error(ActiveRecord::RecordInvalid) do
+  [422, { message: "Validation errors occurred",
+          errors:  env['sinatra.error'].record.errors.messages }.to_json ]
+end
+error { '{"message":"An internal server error occurred. Please try again later."}' }
