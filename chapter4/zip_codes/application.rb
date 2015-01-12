@@ -14,7 +14,7 @@ before do
   content_type :json
 end
 
-error(ActiveRecord::RecordNotFound) { [404, '{"message":"Record not found"}' }
+error(ActiveRecord::RecordNotFound) { [404, '{"message":"Record not found"}'] }
 error(ActiveRecord::RecordInvalid) do
   [422, { message: "Validation errors occurred",
           errors:  env['sinatra.error'].record.errors.messages }.to_json ]
