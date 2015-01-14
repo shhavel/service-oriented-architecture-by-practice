@@ -17,11 +17,13 @@ ActiveRecord::Schema.define(version: 20150110094509) do
   enable_extension "plpgsql"
 
   create_table "zip_codes", force: :cascade do |t|
-    t.string "zip",             null: false
-    t.string "street_name"
-    t.string "building_number"
-    t.string "city"
-    t.string "state"
+    t.string   "zip",             null: false
+    t.string   "street_name"
+    t.string   "building_number"
+    t.string   "city"
+    t.string   "state"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   add_index "zip_codes", ["zip"], name: "index_zip_codes_on_zip", using: :btree

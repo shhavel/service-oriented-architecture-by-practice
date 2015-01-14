@@ -6,6 +6,8 @@ class CreateZipCodes < ActiveRecord::Migration
       t.string :building_number
       t.string :city
       t.string :state
+
+      t.timestamps null: false
     end
 
     add_index :zip_codes, :zip

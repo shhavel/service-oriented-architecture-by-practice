@@ -25,3 +25,12 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 end
+
+require "rspec_api_documentation/dsl"
+
+RspecApiDocumentation.configure do |config|
+  config.docs_dir = Pathname.new(Sinatra::Application.root).join("doc")
+  config.app = Sinatra::Application
+  config.api_name = "Zip Codes API"
+  config.format = :html
+end

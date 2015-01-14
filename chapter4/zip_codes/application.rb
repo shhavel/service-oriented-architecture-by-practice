@@ -3,6 +3,7 @@ Bundler.require :default, (ENV['RACK_ENV'] || :development).to_sym
 puts "Loaded #{Sinatra::Application.environment} environment"
 
 set :root, File.dirname(__FILE__)
+use Rack::PostBodyContentTypeParser
 use Rack::CommonLogger, File.new(File.join(settings.root, 'log',
   "#{settings.environment}.log"), 'a+').tap { |f| f.sync = true }
 
@@ -13,6 +14,7 @@ Dir[File.join(settings.root, "app/controllers/*.rb")].each { |f| require f }
 before do
   content_type :json
 end
+ActiveRecord::Base.include_root_in_json = true
 
 error(ActiveRecord::RecordNotFound) { [404, '{"message":"Record not found"}'] }
 error(ActiveRecord::RecordInvalid) do
