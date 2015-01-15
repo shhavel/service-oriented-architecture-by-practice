@@ -1,11 +1,13 @@
 resource ZipCode do
-  let(:valid_attributes) do
-    { zip: "35761-7714", street_name: "Lavada Creek",
-        building_number: "88871", city: "New Herminaton", state: "Rhode Island" }
-  end
+  # let(:valid_attributes) do
+  #   { zip: "35761-7714", street_name: "Lavada Creek",
+  #       building_number: "88871", city: "New Herminaton", state: "Rhode Island" }
+  # end
+  let(:valid_attributes) { attributes_for(:zip_code) }
   header "Accept", "application/json"
 
   post "/api/v1/zip_codes.json" do
+    let(:new_zip_code) { described_class.last }
     header "Content-Type", "application/json"
 
     parameter :zip, "Zip", scope: :zip_code, required: true
@@ -21,6 +23,8 @@ resource ZipCode do
 
       expect(status).to eq 201
       expect(json_response[:zip_code].values_at(*valid_attributes.keys)).to eq valid_attributes.values
+      expect(new_zip_code).to be_present
+      expect(new_zip_code.attributes.values_at(*valid_attributes.keys.map(&:to_s))).to eq valid_attributes.values
     end
 
     example "Create Zip Code with invalid params", document: nil do
@@ -28,6 +32,7 @@ resource ZipCode do
 
       expect(status).to eq 422
       expect(response_body).to eq '{"message":"Validation errors occurred","errors":{"zip":["is invalid"]}}'
+      expect(new_zip_code).to be_nil
     end
   end
 end
