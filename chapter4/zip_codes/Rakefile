@@ -1,2 +1,7 @@
 require_relative 'application'
 require 'sinatra/activerecord/rake'
+
+unless ENV['RACK_ENV'].to_s == 'production'
+  require 'rspec_api_documentation'
+  load 'tasks/docs.rake'
+end

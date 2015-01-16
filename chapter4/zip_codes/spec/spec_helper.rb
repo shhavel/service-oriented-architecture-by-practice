@@ -33,4 +33,6 @@ RspecApiDocumentation.configure do |config|
   config.app = Sinatra::Application
   config.api_name = "Zip Codes API"
   config.format = :html
+  config.curl_host = 'https://zipcodes.example.com'
+  config.curl_headers_to_filter = %w(Host Cookie)
 end

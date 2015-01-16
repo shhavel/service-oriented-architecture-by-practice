@@ -1,4 +1,4 @@
-resource ZipCode do
+resource 'ZipCode' do
   # let(:valid_attributes) do
   #   { zip: "35761-7714", street_name: "Lavada Creek",
   #       building_number: "88871", city: "New Herminaton", state: "Rhode Island" }
@@ -7,7 +7,7 @@ resource ZipCode do
   header "Accept", "application/json"
 
   post "/api/v1/zip_codes.json" do
-    let(:new_zip_code) { described_class.last }
+    let(:new_zip_code) { ZipCode.last }
     header "Content-Type", "application/json"
 
     parameter :zip, "Zip", scope: :zip_code, required: true
