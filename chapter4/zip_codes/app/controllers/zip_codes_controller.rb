@@ -6,6 +6,7 @@ post "/api/v1/zip_codes.json" do
 end
 
 get "/api/v1/zip_codes/:zip.json" do
+  param :zip, String, format: /\A\d{5}(?:-\d{4})?\Z/
   zip_code = ZipCode.find_by_zip!(params[:zip])
   zip_code.to_json
 end

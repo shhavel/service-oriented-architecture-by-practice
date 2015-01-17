@@ -57,5 +57,14 @@ resource 'ZipCode' do
       expect(status).to eq 404
       expect(response_body).to eq '{"message":"Record not found"}'
     end
+
+    example "Read Zip Code provide invalid format zip", document: nil do
+      do_request(zip: '1234')
+      json_response = JSON.parse(response_body, symbolize_names: true)
+
+      expect(status).to eq 400
+      expect(json_response[:message]).to eq 'Invalid Parameter: zip'
+      expect(json_response[:errors][:zip]).to eq 'Parameter must match format (?-mix:\A\d{5}(?:-\d{4})?\Z)'
+    end
   end
 end
