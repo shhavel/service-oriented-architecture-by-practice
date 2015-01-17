@@ -4,3 +4,8 @@ post "/api/v1/zip_codes.json" do
   status 201
   zip_code.to_json
 end
+
+get "/api/v1/zip_codes/:zip.json" do
+  zip_code = ZipCode.find_by_zip!(params[:zip])
+  zip_code.to_json
+end
