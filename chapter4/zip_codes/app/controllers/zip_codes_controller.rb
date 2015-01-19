@@ -18,3 +18,9 @@ put "/api/v1/zip_codes/:id.json" do
   zip_code.update_attributes!(params[:zip_code])
   zip_code.to_json
 end
+
+delete "/api/v1/zip_codes/:id.json" do
+  param :id, Integer, max: 2147483647 # 0b111111111111111111111111111111
+  zip_code = ZipCode.find(params[:id])
+  zip_code.destroy!
+end

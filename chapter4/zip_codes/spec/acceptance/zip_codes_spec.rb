@@ -71,7 +71,7 @@ resource 'ZipCode' do
   put "/api/v1/zip_codes/:id.json" do
     header "Content-Type", "application/json"
 
-    parameter :id, "Zip", required: true
+    parameter :id, "Record ID", required: true
     parameter :street_name, "Street name", scope: :zip_code
     parameter :building_number, "Building number", scope: :zip_code
     parameter :city, "City", scope: :zip_code
@@ -111,6 +111,26 @@ resource 'ZipCode' do
       do_request(id: zip_code.id, zip_code: "STRING")
 
       expect(status).to eq 200
+    end
+  end
+
+  delete "/api/v1/zip_codes/:id.json" do
+    parameter :id, "Record ID", required: true
+
+    let(:zip_code) { create(:zip_code) }
+
+    example "Delete Zip Code" do
+      do_request(id: zip_code.id)
+
+      expect(status).to eq 200
+      expect(ZipCode.where(id: zip_code.id)).to be_empty
+    end
+
+    example "Delete Zip Code that does not exist", document: nil do
+      do_request(id: 800)
+
+      expect(status).to eq 404
+      expect(response_body).to eq '{"message":"Record not found"}'
     end
   end
 end
