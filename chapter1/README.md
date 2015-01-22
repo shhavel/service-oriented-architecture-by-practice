@@ -107,4 +107,93 @@ post "/api/v1/notes.txt" do
 end
 ```
 
-sinatra `post` helper creates route for making possible posting records on provided URL - "/api/v1/notes.txt". `content_type :txt` adds HTTP header that notifies client about response format.
+sinatra `post` helper creates route for making possible posting records on provided URL - "/api/v1/notes.txt". `content_type :txt` adds HTTP header that notifies client about response format. After that note record is created (saved in database), expected that uses provides content parameter (that will be set to "Empty" if user omits it). HTTP status  code is set to 201 which means that a new resource being created. And service responds with text representation of new note.
+
+All notes service routes are planning respond with plain text format, so we can move `content_type :txt` line from route to before filter that is used in all routes.
+
+```ruby
+before do
+  content_type :txt
+end
+```
+
+Similar to post route for creating record we can create get routes for retrieving (or reading) record(s). One for reading all records at ones and one for reading only one record found by it's ID.
+
+```ruby
+get "/api/v1/notes.txt" do
+  Note.all.map { |note| "##{note.id} #{note.content}" }.join("\n")
+end
+
+get "/api/v1/notes/:id.txt" do
+  note = Note.find(params[:id])
+  "##{note.id} #{note.content}"
+end
+```
+
+By default routes respond with success 200 HTTP status code, so explicit setting can be omitted.
+
+This how our service should look at this moment (file `service.rb` at `notes` directory).
+
+```ruby
+require "sqlite3"
+require "active_record"
+require "sinatra/main"
+
+class CreateNotes < ActiveRecord::Migration
+  def change
+    create_table :notes do |t|
+      t.string :content, null: false, default: 'Empty'
+    end
+  end
+end
+
+class Note < ActiveRecord::Base
+end
+
+ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: 'db/notes.sqlite3')
+CreateNotes.new.change unless ActiveRecord::Base.connection.table_exists? :notes
+
+before do
+  content_type :txt
+end
+
+post "/api/v1/notes.txt" do
+  note = Note.create(content: params[:content])
+  status 201
+  "##{note.id} #{note.content}"
+end
+
+get "/api/v1/notes.txt" do
+  Note.all.map { |note| "##{note.id} #{note.content}" }.join("\n")
+end
+
+get "/api/v1/notes/:id.txt" do
+  note = Note.find(params[:id])
+  "##{note.id} #{note.content}"
+end
+```
+
+We can run our service
+
+    $ ruby service.rb
+
+And test that is work (or start use it) with `curl` command line tool. Create new notes with content parameter
+
+    $ curl -X POST "localhost:4567/api/v1/notes.txt?content=First%20Note"
+    #1 First Note
+
+    $ curl -X POST "localhost:4567/api/v1/notes.txt?content=Second%20Note"
+    #2 Second Note
+
+Retrieve all notes
+
+    $ curl -X GET "localhost:4567/api/v1/notes.txt"
+    #1 First Note
+    #2 Second Note
+
+Retrieve specific note by it's ID
+
+    $ curl -X GET "localhost:4567/api/v1/notes/1.txt"
+    #1 First Note
+
+You can also use your browser for retrieving records.
