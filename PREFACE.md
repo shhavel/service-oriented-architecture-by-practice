@@ -14,6 +14,9 @@ And there is more! Now you can interact with other sites or services to allow us
 This is not the only area of application HTTP APIs. There are projects that internally constructed of small services that interact with each other throw APIs. That kind of service can be called API itself. And architecture of such project is called Service Oriented Architecture which this book is devoted to.
 
 ## RPC vs REST
+So if you need to provide access to your application for some other application(s), that can be maintained by some other developers and can be written in any programming languages you probably need some usage agreement or rules (and documentation) that in general is finite list of remote calls (or methods, or procedures) with some specifications.
+It is advisable to pick up some well-known or intuitive format. One choice is to use XML-RPC (Remote Procedure Call), it uses XML for encoding messages - method calls and data also in XML format. That XML that sent by HTTP. But HTTP is protocol itself on which REST (Representational State Transfer) completely relies. URL is used to determine resource type or unique resource item and HTTP method such as POST, GET, PUT, DELETE is used to determine method: Create, Read, Update, Delete (this set of atomic methods should be enough to accomplish any action). Compering to REST XML-RPC is like envelope with the data (Top level XML) placed in another envelope (HTTP).
+In this book REST convention are followed. REST does not tie you to any or data format. We will use mostly JSON.
 
 ## Technologies
 In this book we will not compare too much different technologies that can be used for building Web services.
