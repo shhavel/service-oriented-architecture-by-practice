@@ -177,13 +177,15 @@ We can run our service
 
     $ ruby service.rb
 
-And test that is work (or start use it) with `curl` command line tool. Create new notes with content parameter
+And test that is work (or start use it) with `curl` command line tool. Create new notes with content parameter.
 
     $ curl -X POST "localhost:4567/api/v1/notes.txt?content=First%20Note"
     #1 First Note
 
     $ curl -X POST "localhost:4567/api/v1/notes.txt?content=Second%20Note"
     #2 Second Note
+
+We used %20 for URL encoded space char (blank).
 
 Retrieve all notes
 
@@ -197,3 +199,121 @@ Retrieve specific note by it's ID
     #1 First Note
 
 You can also use your browser for retrieving records.
+
+For completeness of service functionality we still need to create `U`pdate and `D`elete action. That will be `put` and `delete` routes respectively.
+
+```ruby
+put "/api/v1/notes/:id.txt" do
+  note = Note.find(params[:id])
+  note.update_attributes!(content: params[:content])
+  "##{note.id} #{note.content}"
+end
+
+delete "/api/v1/notes/:id.txt" do
+  note = Note.find(params[:id])
+  note.destroy
+end
+```
+
+And we can test that both of them work. You may need restart server (stop by clicking `Ctrl` + `C` and run `ruby service.rb` again).
+
+## Update existing note
+
+    $ curl -X PUT "localhost:4567/api/v1/notes/1.txt?content=New%20Content"
+    #1 New Content
+
+## Delete note
+
+    $ curl -X DELETE "localhost:4567/api/v1/notes/1.txt"
+
+Everything works. That is grate. Good thing is also to create tests. Sometimes people do this before writing main application code - write one test that fails due to missing functionality and then add this functionality to make test pass (That is called red-green circle, red - for failing test, green - for passing test). We are adding all tests at once. Create plese directory called `spec` incide notes directory and file `service_spec.rb` in it with next content.
+
+```ruby
+require_relative "../service"
+require "rack/test"
+
+RSpec.configure do |config|
+  config.include Rack::Test::Methods
+  config.after(:each) { Note.delete_all }
+
+  def app
+    Sinatra::Application
+  end
+end
+
+describe "Notes Service" do
+  describe "POST /api/v1/notes.txt" do
+    let(:note) { Note.last }
+
+    it "craetes new note" do
+      post "/api/v1/notes.txt", content: "My New Note"
+      expect(last_response.status).to eq 201
+      expect(last_response.body).to eq "##{note.id} My New Note"
+    end
+  end
+
+  describe "GET /api/v1/notes.txt" do
+    before { Note.create([{ id: 1, content: "First Note" }, { id: 2, content: "Second Note" }]) }
+
+    it "retrieves all notes" do
+      get "/api/v1/notes.txt"
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq "#1 First Note\n#2 Second Note"
+    end
+  end
+
+  describe "GET /api/v1/notes/:id.txt" do
+    before { Note.create([{ id: 4, content: "My Note" }]) }
+
+    it "retrieves specific note" do
+      get "/api/v1/notes/4.txt"
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq "#4 My Note"
+    end
+  end
+
+  describe "PUT /api/v1/notes/:id.txt" do
+    before { Note.create([{ id: 4, content: "My Note" }]) }
+
+    it "updates note and returns updated content" do
+      put "/api/v1/notes/4.txt", content: "New Content"
+      expect(last_response).to be_ok
+      expect(last_response.body).to eq "#4 New Content"
+      expect(Note.last.content).to eq "New Content"
+    end
+  end
+
+  describe "DELETE /api/v1/notes/:id.txt" do
+    before { Note.create([{ id: 4, content: "My Note" }]) }
+
+    it "deletes note" do
+      delete "/api/v1/notes/4.txt"
+      expect(last_response).to be_ok
+      expect(Note.last).to be_nil
+    end
+  end
+end
+```
+
+There are more than one expectation per example, actually this can be considered as bad practice but I do that. Besides `rspec` we are used gem `rack-test` for testing rack based application (which sinatra is). Navigarte to notes folder in terminal again and run `rspec --color --format=doc`.
+
+    rspec --color --format=doc
+
+    Notes Service
+      POST /api/v1/notes.txt
+        craetes new note
+      GET /api/v1/notes.txt
+        retrieves all notes
+      GET /api/v1/notes/:id.txt
+        retrieves specific note
+      PUT /api/v1/notes/:id.txt
+        updates note and returns updated content
+      DELETE /api/v1/notes/:id.txt
+        deletes note
+
+    Finished in 0.11771 seconds (files took 0.80795 seconds to load)
+    5 examples, 0 failures
+
+So everithing is works and tested. Basic understanding of what HTTP service or API exactly is. You probably knew it before.But you may need a new look. Speaking of which "repetition - the mother of learning". So let's build this same service again! I am kidding. Stupid joke, I know.
+
+Ok let's build another one application that can be considered as HTTP API.
