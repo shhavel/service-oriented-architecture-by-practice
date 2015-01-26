@@ -1,5 +1,5 @@
 Chapter #1. Outline
-===============
+===================
 Let's build a simple Web service for managing notes to get more familiar with some technologies that are used is this book and of course to understand partial concepts of Web services.
 
 We will keep notes in sqlite database and allow access and manage those notes via http using incipient just now new notes service. There are some choices of technologies for build service like `rails-api`, `sinatra`, `grape` or combination of this. For all services in this book we will use `sinatra`, generally this is matter of taste - `sinatra` is concise and fits well.
@@ -314,6 +314,4 @@ There are more than one expectation per example, actually this can be considered
     Finished in 0.11771 seconds (files took 0.80795 seconds to load)
     5 examples, 0 failures
 
-So everithing is works and tested. Basic understanding of what HTTP service or API exactly is. You probably knew it before.But you may need a new look. Speaking of which "repetition - the mother of learning". So let's build this same service again! I am kidding. Stupid joke, I know.
-
-Ok let's build another one application that can be considered as HTTP API.
+So everithing is works and tested. Basic understanding of what HTTP service or API exactly is. You probably knew it before. But you may need a new look. Speaking of which "repetition - the mother of learning". So let's build this same service again! I am kidding. Stupid joke, I know. Ok let's build another one application that can be considered as HTTP API, but in next chapter.
