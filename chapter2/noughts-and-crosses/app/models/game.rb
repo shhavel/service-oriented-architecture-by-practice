@@ -24,12 +24,12 @@ class Game < ActiveRecord::Base
   end
 
   def finished?
-    won? or lost?
+    won? or lost? or cells.none?(&:blank?)
   end
 
   def status
     return 'In Progress' unless finished?
-    won? ? 'Won' : 'Lost'
+    won? ? 'Won' : (lost? ? 'Lost' : 'Draw')
   end
 
   def cells
