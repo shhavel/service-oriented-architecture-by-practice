@@ -58,4 +58,23 @@ If game is not finished player can make another move. Game considered finished i
 
 ## Game's model interface.
 
+Our game model should behave like this:
+
+```ruby
+# created new game with empty board.
+game = Game.create
+
+# Game has it's own unique ID
+game.id
+
+# making a move (computer makes countermove and saves record into database)
+game.update_attributes(move: 4)
+
+# Game status: "In Progress", "Won", "Lost", "Drow"
+gmae.status
+
+# Array of board cells: each value equals one of strings "X", "O" or ""
+game.cells
+```
+
 ## Add custom rake task
