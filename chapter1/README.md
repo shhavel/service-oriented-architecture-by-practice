@@ -4,6 +4,8 @@ Let's build a simple Web service for managing notes to get more familiar with so
 
 We will keep notes in sqlite database and allow access and manage those notes via http using incipient just now new notes service. There are some choices of technologies for build service like `rails-api`, `sinatra`, `grape` or combination of this. For all services in this book we will use `sinatra`, generally this is matter of taste - `sinatra` is concise and fits well.
 
+## Infrastructure
+
 Please create `notes` folder in which will store our service's code files. We need install three ruby gems for managing service internals, thouse are `sinatra`, `sqlite3` and `activerecord` and two gems for testing: `rspec` and `rack-test`.
 Create file named `Gemfile` in `notes` folder with next contennts.
 
@@ -57,6 +59,8 @@ require "sinatra/main"
 
 Note that gem is clalled `activerecord` but we have just required `active_record`. And also only part of sinatra but this is not really important.
 
+## Create model
+
 Than we need to create a database table to sore the notes. Add this please in `service.rb`.
 
 ```ruby
@@ -91,6 +95,8 @@ CreateNotes.new.change unless ActiveRecord::Base.connection.table_exists? :notes
 ```
 
 That was setup infrastructure code.
+
+## Routes for CRUD
 
 Any operation that may be expected from your application can be performed with the four operations: `C`raate some entity, `R`ead entity, `U`pdate entity and `D`elete entity (`CRUD`). This actions are coupled with four (or about four) HTTP verbs: POST, GET, PUT (can be PATCH), DELETE. And URL of the entilty or representation that service users will see in HTTP response (if of course at least one of them will perform a successful HTTP request) is expected to be somehow associated with entity general name which is "notes" in our case. This is genial simplicity of the REST principles.
 
@@ -173,6 +179,8 @@ get "/api/v1/notes/:id.txt" do
 end
 ```
 
+## Test it manually
+
 We can run our service
 
     $ ruby service.rb
@@ -217,16 +225,20 @@ end
 
 And we can test that both of them work. You may need restart server (stop by clicking `Ctrl` + `C` and run `ruby service.rb` again).
 
-## Update existing note
+Update existing note
 
     $ curl -X PUT "localhost:4567/api/v1/notes/1.txt?content=New%20Content"
     #1 New Content
 
-## Delete note
+Delete note
 
     $ curl -X DELETE "localhost:4567/api/v1/notes/1.txt"
 
-Everything works. That is grate. Good thing is also to create tests. Sometimes people do this before writing main application code - write one test that fails due to missing functionality and then add this functionality to make test pass (That is called red-green circle, red - for failing test, green - for passing test). We are adding all tests at once. Create plese directory called `spec` incide notes directory and file `service_spec.rb` in it with next content.
+Everything works. That is grate. Good thing is also to create tests. Sometimes people do this before writing main application code - write one test that fails due to missing functionality and then add this functionality to make test pass (That is called red-green circle, red - for failing test, green - for passing test). We are adding all tests at once.
+
+## Automated tests
+
+Create plese directory called `spec` incide notes directory and file `service_spec.rb` in it with next content.
 
 ```ruby
 require_relative "../service"
@@ -315,3 +327,7 @@ There are more than one expectation per example, actually this can be considered
     5 examples, 0 failures
 
 So everithing is works and tested. Basic understanding of what HTTP service or API exactly is. You probably knew it before. But you may need a new look. Speaking of which "repetition - the mother of learning". So let's build this same service again! I am kidding. Stupid joke, I know. Ok let's build another one application that can be considered as HTTP API, but in next chapter.
+
+## Summary
+
+We have created the first Web service in this book. We used `sinatra` for building service and `rspec` with `rack-test` to create automated tests. If you plan to use `sinatra` I encourage you to read book [Sinatra: Up and Running](http://shop.oreilly.com/product/0636920019664.do) and visit site [www.sinatrarb.com](http://www.sinatrarb.com/).

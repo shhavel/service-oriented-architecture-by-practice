@@ -56,7 +56,7 @@ private
 
   def make_a_move
     cells[move] = 'X'
-    unless won?
+    unless finished?
       empty_indexes = [*0..8].select { |ind| cells[ind] == '' }
       cells[empty_indexes.sample] = 'O'
     end
