@@ -3,7 +3,8 @@ Bundler.require :default, (ENV['RACK_ENV'] || :development).to_sym
 require 'logger'
 require_relative 'rusen_config'
 
-set :raise_errors, false # in production and dev mode it is false, so you probably do not need it
+disable :show_exceptions # in production it is false, so you probably do not need it
+disable :raise_errors # in production and dev mode it is false, so you probably do not need it
 set :root, File.dirname(__FILE__)
 log_file = File.new(File.join(settings.root, 'log', "#{settings.environment}.log"), 'a+')
 log_file.sync = true
@@ -13,11 +14,11 @@ logger.formatter = ->(severity, time, progname, msg) { "#{msg}\n" }
 
 before do
   env['rack.logger'] = logger
-  content_type :txt
 end
 
 get "/api/v1/ratio/:a/:b" do
   logger.info "compute the result of integer division #{params[:a]} / #{params[:b]}"
+  content_type :txt
   "#{params[:a].to_i / params[:b].to_i}"
 end
 

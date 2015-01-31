@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'sinatra', require: 'sinatra/main'
+gem 'sinatra'
 gem 'rusen'
 gem 'pony'
 
