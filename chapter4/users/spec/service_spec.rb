@@ -1,3 +1,5 @@
+require "spec_helper"
+
 describe "Users Service" do
   describe "GET /api/v1/users/me.json" do
     it "retrieves admin user JSON representation of provided token of admin user" do

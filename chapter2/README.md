@@ -1,5 +1,6 @@
 Chapter #2. Database Managment and General Service Structure
 ============================================================
+
 In this chapter we will create service for simple game Tic Tac Toe (Noughts and Crosses) and we will focus more on service structure and database management tasks, such as create database, creation migration, run migration, rollback migration.
 
 We will store games in relational database (namely postgreSQL but you can use different such as SQLite or MySQL). Game keeps it's board, after create board is empty. Service allows player to make a move on particular game's board after that service makes own move and responds with updated game representation in text format.

@@ -18,7 +18,6 @@ group :test do
   gem 'rspec'
   gem 'rack-test'
 end
-
 ```
 
 Then navigate to this folder in terminal and run

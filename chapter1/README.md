@@ -1,5 +1,6 @@
 Chapter #1. Outline
 ===================
+
 Let's build a simple Web service for managing notes to get more familiar with some technologies that are used is this book and of course to understand partial concepts of Web services.
 
 We will keep notes in sqlite database and allow access and manage those notes via http using incipient just now new notes service. There are some choices of technologies for build service like `rails-api`, `sinatra`, `grape` or combination of this. For all services in this book we will use `sinatra`, generally this is matter of taste - `sinatra` is concise and fits well.

@@ -1,3 +1,5 @@
+require "spec_helper"
+
 resource "Users" do
   get "/api/v1/users/me.json" do
     example "retrieve admin user JSON representation of provided token of admin user" do
