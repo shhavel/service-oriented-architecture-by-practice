@@ -2,12 +2,12 @@ source 'https://rubygems.org'
 
 gem 'rake'
 gem 'sinatra', require: 'sinatra/main'
+# use Rack::PostBodyContentTypeParser to add support for JSON request bodies
 gem 'rack-contrib', git: 'https://github.com/rack/rack-contrib'
 gem 'pg'
 gem 'activerecord'
 gem 'protected_attributes'
 gem 'sinatra-activerecord'
-gem 'sinatra-param'
 
 group :development, :test do
   gem 'thin'
