@@ -1,0 +1,34 @@
+source 'https://rubygems.org'
+
+gem 'rake'
+gem 'sinatra', require: 'sinatra/main'
+gem 'rack-contrib', git: 'https://github.com/rack/rack-contrib'
+gem 'pg'
+gem 'activerecord'
+gem 'protected_attributes'
+gem 'sinatra-activerecord'
+gem 'sinatra-param'
+
+# Simple, but flexible HTTP client library, with support for multiple backends. 
+gem 'faraday'
+
+# CanCan wrapper for Sinatra. (CanCan is Authorization Gem for Ruby on Rails)
+gem 'sinatra-can'
+
+group :development, :test do
+  gem 'thin'
+  gem 'pry-debugger'
+  gem 'rspec_api_documentation'
+end
+
+group :test do
+  gem 'rspec'
+  gem 'shoulda'
+  gem 'factory_girl'
+  gem 'database_cleaner'
+  gem 'rack-test'
+  gem 'faker'
+
+  # A test helper for faking responses to web requests
+  gem 'fakeweb'
+end
