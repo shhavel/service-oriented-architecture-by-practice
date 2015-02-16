@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# parameter: RACK_ENV
+bundle exec irb -r ./application.rb

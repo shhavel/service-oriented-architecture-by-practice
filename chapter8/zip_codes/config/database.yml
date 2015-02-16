@@ -1,0 +1,11 @@
+development:
+  adapter: postgresql
+  encoding: unicode
+  database: zipcodes_development
+  username: alex
+
+test:
+  adapter: postgresql
+  encoding: unicode
+  database: zipcodes_test
+  username: alex
