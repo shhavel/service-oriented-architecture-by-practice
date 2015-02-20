@@ -57,6 +57,13 @@ resource 'ZipCode' do
 
         expect(status).to eq 422
       end
+
+      example "Create Zip Code do not provide zip_code params", document: nil do
+        do_request
+
+        expect(status).to eq 400
+        expect(response_body).to eq '{"message":"Invalid Parameter: zip_code","errors":{"zip_code":"Parameter is required"}}'
+      end
     end
 
     context 'Admin User', document: nil do
@@ -192,7 +199,7 @@ resource 'ZipCode' do
       end
 
       example "Update Zip Code that does not exist", document: nil do
-        do_request(id: 800)
+        do_request(id: 800, zip_code: valid_attributes)
 
         expect(status).to eq 404
         expect(response_body).to eq '{"message":"Record not found"}'
@@ -211,6 +218,15 @@ resource 'ZipCode' do
         do_request(id: zip_code.id, zip_code: "STRING")
 
         expect(status).to eq 200
+      end
+
+      example "Update Zip Code do not provide zip_code params", document: nil do
+        do_request(id: zip_code.id)
+        json_response = JSON.parse(response_body, symbolize_names: true)
+
+        expect(status).to eq 400
+        expect(json_response[:message]).to eq 'Invalid Parameter: zip_code'
+        expect(json_response[:errors][:zip_code]).to eq 'Parameter is required'
       end
     end
   end
