@@ -1,5 +1,5 @@
 post "/api/v1/zip_codes.json" do
-  param :zip_code, Hash
+  param :zip_code, Hash, required: true
   zip_code = ZipCode.new(params[:zip_code])
   authorize! :create, zip_code
   zip_code.save!
@@ -15,7 +15,7 @@ end
 
 put "/api/v1/zip_codes/:id.json" do
   param :id, Integer, max: 2147483647
-  param :zip_code, Hash
+  param :zip_code, Hash, required: true
   load_and_authorize! ZipCode # load @zip_code and authorize! :update, @zip_code
   @zip_code.update_attributes!(params[:zip_code]) if params[:zip_code].any?
   @zip_code.to_json

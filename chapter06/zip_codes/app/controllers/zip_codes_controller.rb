@@ -1,5 +1,5 @@
 post "/api/v1/zip_codes.json" do
-  param :zip_code, Hash # ensure params[:zip_code] is a Hash
+  param :zip_code, Hash, required: true # ensure params[:zip_code] is a Hash
   zip_code = ZipCode.new(params[:zip_code])
   zip_code.save!
   status 201
@@ -14,7 +14,7 @@ end
 
 put "/api/v1/zip_codes/:id.json" do
   param :id, Integer, max: 2147483647 # 0b111111111111111111111111111111
-  param :zip_code, Hash # ensure params[:zip_code] is a Hash
+  param :zip_code, Hash, required: true # ensure params[:zip_code] is a Hash
   zip_code = ZipCode.find(params[:id])
   zip_code.update_attributes!(params[:zip_code]) if params[:zip_code].any?
   zip_code.to_json
