@@ -11,7 +11,7 @@ Dir[File.join(settings.root, "app/{models,controllers}/*.rb")].each { |f| requir
 # Support for JSON request bodies
 use Rack::PostBodyContentTypeParser
 
-# Adds Content-Type: application/json HTTP header in response
+# Adds "Content-Type: application/json" HTTP header in response
 before { content_type :json }
 
 # Configure method ActiveRecord::Base#to_json to add root node at top level,
