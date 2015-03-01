@@ -1,4 +1,4 @@
-Code examples from the book [“Service Oriented Arhitecture by Practice”](http://ukrmap.su/en-ruby).
+Code examples from the book [“Service Oriented Architecture in Practice”](http://ukrmap.su/en-ruby).
 
 [Chapter #4. Documentation and Testing](http://ukrmap.su/en-ruby/chapter04-documentation-and-testing.html).
 

@@ -1,4 +1,4 @@
-Code examples from the book [“Service Oriented Arhitecture by Practice”](http://ukrmap.su/en-ruby).
+Code examples from the book [“Service Oriented Architecture in Practice”](http://ukrmap.su/en-ruby).
 
 [Chapter #8. Search API](http://ukrmap.su/en-ruby/chapter08-search-api.html).
 
